@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "2403693966",
+    "project_id": "crime-lens-d8706",
+    "storage_bucket": "crime-lens-d8706.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:2403693966:android:4b59570d7f3673b7ae60df",
+        "android_client_info": {
+          "package_name": "com.example.crime_lens"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAoA_oXIaxpqA45uXjwK3U6hljPp_cBjNI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

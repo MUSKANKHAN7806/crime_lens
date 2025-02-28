@@ -1,4 +1,5 @@
 import 'package:crime_lens/screens/video_complain.dart';
+import 'package:crime_lens/services/auth_services.dart';
 import 'package:crime_lens/widgets/complain_cards.dart';
 import 'package:crime_lens/widgets/heat_map.dart';
 import 'package:flutter/cupertino.dart';
@@ -13,7 +14,7 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
     return Scaffold(
-      appBar: AppBar(title: Text('CrimeLens'),),
+      appBar: AppBar(title: Text('CrimeLens'),actions: [ElevatedButton(onPressed: ()async{await AuthService().signOut();}, child:Text('Logout'))],),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
