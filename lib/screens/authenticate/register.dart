@@ -154,7 +154,7 @@ class _RegisterState extends State<Register> {
                               onPressed: () async {
                                 if (_formKey.currentState!.validate()) {
                                   if (_password == _confirmPassword) {
-                                    Navigator.of(context).push(MaterialPageRoute(builder: (context)=>UserDetails(email: _email!, password: _password!)));
+                                    Navigator.of(context).push(MaterialPageRoute(builder: (context)=>UserDetailsPage(email: _email!, password: _password!)));
                                   } else {
                                     setState(() {
                                       errorMessage =

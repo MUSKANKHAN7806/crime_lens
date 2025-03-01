@@ -1,4 +1,5 @@
 import 'package:crime_lens/screens/homepage.dart';
+import 'package:crime_lens/services/theme.dart';
 import 'package:crime_lens/wrapper.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -18,10 +19,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
-      ),
+      theme: AppTheme().lightTheme(),
       home: const Wrapper(),
     );
   }

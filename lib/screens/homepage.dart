@@ -1,3 +1,4 @@
+import 'package:crime_lens/screens/complain/complain_form.dart';
 import 'package:crime_lens/screens/video_complain.dart';
 import 'package:crime_lens/services/auth_services.dart';
 import 'package:crime_lens/widgets/complain_cards.dart';
@@ -48,7 +49,10 @@ class HomePage extends StatelessWidget {
                             Navigator.of(context).push(MaterialPageRoute(builder: (context)=>VideoComplain()));
                           }, icon: Icon(Icons.video_call)),
                           IconButton.filled(onPressed: (){}, icon: Icon(Icons.spatial_audio_off_rounded)),
-                          IconButton.filled(onPressed: (){}, icon: Icon(Icons.edit_document))
+                          IconButton.filled(onPressed: (){
+                            Navigator.of(context).pop();
+                            Navigator.of(context).push(MaterialPageRoute(builder: (context)=>ComplainForm()));
+                          }, icon: Icon(Icons.edit_document))
                      ],
               );
             });

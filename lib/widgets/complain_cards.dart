@@ -10,7 +10,7 @@ class ComplainCards extends StatelessWidget {
       child: Container(
         height: 100,
         width: 150,
-        color: Colors.blue,
+        color: Colors.purple,
       ),
     );
   }

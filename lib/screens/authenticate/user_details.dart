@@ -1,18 +1,19 @@
+import 'package:crime_lens/models/complain_model.dart';
 import 'package:crime_lens/services/auth_services.dart';
 import 'package:crime_lens/services/database_services.dart';
 import 'package:crime_lens/services/theme.dart';
 import 'package:flutter/material.dart';
 
-class UserDetails extends StatefulWidget {
+class UserDetailsPage extends StatefulWidget {
   final String email;
   final String password;
-  const UserDetails({super.key, required this.email, required this.password});
+  const UserDetailsPage({super.key, required this.email, required this.password});
 
   @override
-  State<UserDetails> createState() => _UserDetailsState();
+  State<UserDetailsPage> createState() => _UserDetailsPageState();
 }
 
-class _UserDetailsState extends State<UserDetails> {
+class _UserDetailsPageState extends State<UserDetailsPage> {
 
   GlobalKey<FormState> _formKey = GlobalKey<FormState>();
     
@@ -122,7 +123,8 @@ class _UserDetailsState extends State<UserDetails> {
                           FilledButton(onPressed: ()async{
                             if(_formKey.currentState!.validate()){
                               final uid = await AuthService().registerWithEmailAndPassword(widget.email, widget.password);
-                              await FirebaseDatabaseServices().addNewUser(uid!, name, aadharNumber, phoneNumber, address);
+                              final userDetails = UserDetails(name: name, aadhar: aadharNumber, address: address, mobileNumber:phoneNumber, email: widget.email);
+                              await FirebaseDatabaseServices().addNewUser(userDetails,uid!);
                               Navigator.of(context).pop();
                             }
                           }, child: Text('Submit'))
