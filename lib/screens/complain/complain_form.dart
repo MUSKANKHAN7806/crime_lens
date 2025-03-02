@@ -4,7 +4,6 @@ import 'package:crime_lens/services/database_services.dart';
 import 'package:crime_lens/widgets/form_text_field.dart';
 import 'package:crime_lens/widgets/loading.dart';
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 
 class ComplainForm extends StatefulWidget {
   const ComplainForm({super.key});
@@ -194,8 +193,8 @@ class _FormBodyState extends State<FormBody> {
                                   isLoading = false;
                                 });
                                 Navigator.of(context).pop();
-                                Fluttertoast.showToast(
-                                    msg: 'Registered complain successfully');
+                                // Fluttertoast.showToast(
+                                //     msg: 'Registered complain successfully');
                               }
                             },
                             child: Text("Submit")),
