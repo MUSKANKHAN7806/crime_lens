@@ -1,12 +1,16 @@
+import 'dart:io';
+
 import 'package:crime_lens/models/complain_model.dart';
 import 'package:crime_lens/services/auth_services.dart';
 import 'package:crime_lens/services/database_services.dart';
+import 'package:crime_lens/widgets/empty_widget.dart';
 import 'package:crime_lens/widgets/form_text_field.dart';
 import 'package:crime_lens/widgets/loading.dart';
 import 'package:flutter/material.dart';
 
 class ComplainForm extends StatefulWidget {
-  const ComplainForm({super.key});
+  final File? attachment;
+  const ComplainForm({super.key, this.attachment});
 
   @override
   State<ComplainForm> createState() => _ComplainFormState();
@@ -35,6 +39,7 @@ class _ComplainFormState extends State<ComplainForm> {
               if (snapshot.connectionState == ConnectionState.done) {
                 final data = snapshot.data!;
                 return FormBody(
+                  attachment: widget.attachment,
                   userDetails: data,
                 );
               }
@@ -44,9 +49,11 @@ class _ComplainFormState extends State<ComplainForm> {
 }
 
 class FormBody extends StatefulWidget {
+  final File? attachment;
   final ComplainModel? initialData;
   final UserDetails? userDetails;
-  const FormBody({super.key, this.initialData, this.userDetails});
+  const FormBody(
+      {super.key, this.initialData, this.userDetails, this.attachment});
 
   @override
   State<FormBody> createState() => _FormBodyState();
@@ -140,18 +147,23 @@ class _FormBodyState extends State<FormBody> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: [
-                          SizedBox(
-                            width: width * 0.4,
-                            child: FormTextField(
-                              labelText: 'labelText',
-                              controller: dateController,
+                          Expanded(
+                            child: SizedBox(
+                              child: FormTextField(
+                                labelText: 'labelText',
+                                controller: dateController,
+                              ),
                             ),
                           ),
-                          SizedBox(
-                            width: width * 0.4,
-                            child: FormTextField(
-                              labelText: 'labelText',
-                              controller: timeController,
+                          const SizedBox(
+                            width: 16,
+                          ),
+                          Expanded(
+                            child: SizedBox(
+                              child: FormTextField(
+                                labelText: 'labelText',
+                                controller: timeController,
+                              ),
                             ),
                           )
                         ],
@@ -164,6 +176,34 @@ class _FormBodyState extends State<FormBody> {
                         labelText: 'Decription',
                         isTextArea: true,
                         controller: descriptionController,
+                      ),
+                      const SizedBox(
+                        height: 12.0,
+                      ),
+                      widget.attachment != null
+                          ? const Text(
+                              'Attachments',
+                              style: titleTextStyle,
+                            )
+                          : const EmptyWidget(),
+                      widget.attachment != null
+                          ? Padding(
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 12.0, vertical: 8.0),
+                              child: Row(
+                                children: [
+                                  Icon(Icons.file_copy),
+                                  const SizedBox(
+                                    width: 12.0,
+                                  ),
+                                  Text(
+                                      (widget.attachment!.path).split('/').last)
+                                ],
+                              ),
+                            )
+                          : const EmptyWidget(),
+                      const SizedBox(
+                        height: 12.0,
                       ),
                       Center(
                         child: FilledButton(
