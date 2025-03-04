@@ -1,6 +1,8 @@
+import 'package:crime_lens/screens/chatbot_screen.dart';
 import 'package:crime_lens/screens/complain/camera_page.dart';
 import 'package:crime_lens/screens/complain/complain_form.dart';
 import 'package:crime_lens/services/auth_services.dart';
+import 'package:crime_lens/services/theme.dart';
 import 'package:crime_lens/widgets/complain_cards.dart';
 import 'package:crime_lens/widgets/heat_map.dart';
 import 'package:flutter/material.dart';
@@ -87,8 +89,20 @@ class HomePage extends StatelessWidget {
         ],
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {},
-        child: Icon(Icons.ac_unit),
+        shape: const CircleBorder(
+            side: BorderSide(color: kMeeshoMustard, width: 1.6)),
+        backgroundColor: kMeeshoPurple,
+        heroTag: 'chatBotFab',
+        onPressed: () {
+          Navigator.of(context).push(MaterialPageRoute(
+              builder: (context) => const ChatBotChatScreen()));
+        },
+        child: Padding(
+          padding: EdgeInsets.all(2.0),
+          child: Center(
+            child: Image(image: AssetImage('assets/images/chatbot.png')),
+          ),
+        ),
       ),
     );
   }
