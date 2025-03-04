@@ -43,6 +43,8 @@ dependencies:
   camerawesome: ^2.1.0
   path_provider: ^2.1.5
   open_file: ^3.5.10
+  chewie: ^1.10.0
+  video_player: ^2.9.3
 
 dev_dependencies:
   flutter_test:
