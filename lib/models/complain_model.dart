@@ -2,34 +2,37 @@ class ComplainModel {
   final String uid;
   final UserDetails userDetails;
   final IncidentDetails incidentDetails;
+  final String? attachmentUrl;
   // final List<SuspectDetails>? suspectDetails;
   // final List<VehicleDetails>? vehicleDetails;
   // final List<WitnessDetails>? witnessDetails;
 
-  ComplainModel({
-    required this.uid,
-    required this.userDetails,
-    required this.incidentDetails,
-    // required this.suspectDetails,
-    // required this.vehicleDetails,
-    // required this.witnessDetails
-  });
+  ComplainModel(
+      {required this.uid,
+      required this.userDetails,
+      required this.incidentDetails,
+      this.attachmentUrl
+      // required this.suspectDetails,
+      // required this.vehicleDetails,
+      // required this.witnessDetails
+      });
 
   factory ComplainModel.fromJson(Map<String, dynamic> json) {
     return ComplainModel(
-      uid: json['uid'],
-      userDetails: UserDetails.fromJson(json['user_details']),
-      incidentDetails: IncidentDetails.fromJson(json['incident_details']),
-      // suspectDetails: (json['suspect_details'] as List?)
-      //     ?.map((e) => SuspectDetails.fromJson(e))
-      //     .toList(),
-      // vehicleDetails: (json['vehicle_details'] as List?)
-      //     ?.map((e) => VehicleDetails.fromJson(e))
-      //     .toList(),
-      // witnessDetails: (json['witness_details'] as List?)
-      //     ?.map((e) => WitnessDetails.fromJson(e))
-      //     .toList(),
-    );
+        uid: json['uid'],
+        userDetails: UserDetails.fromJson(json['user_details']),
+        incidentDetails: IncidentDetails.fromJson(json['incident_details']),
+        attachmentUrl: json['attachment_url']
+        // suspectDetails: (json['suspect_details'] as List?)
+        //     ?.map((e) => SuspectDetails.fromJson(e))
+        //     .toList(),
+        // vehicleDetails: (json['vehicle_details'] as List?)
+        //     ?.map((e) => VehicleDetails.fromJson(e))
+        //     .toList(),
+        // witnessDetails: (json['witness_details'] as List?)
+        //     ?.map((e) => WitnessDetails.fromJson(e))
+        //     .toList(),
+        );
   }
 
   Map<String, dynamic> toJson() {
@@ -37,6 +40,7 @@ class ComplainModel {
       'uid': uid,
       'user_details': userDetails.toJson(),
       'incident_details': incidentDetails.toJson(),
+      'attachment_url': attachmentUrl
       // 'suspect_details': suspectDetails?.map((e) => e.toJson()).toList(),
       // 'vehicle_details': vehicleDetails?.map((e) => e.toJson()).toList(),
       // 'witness_details': witnessDetails?.map((e) => e.toJson()).toList(),

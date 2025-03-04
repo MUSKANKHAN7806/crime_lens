@@ -71,7 +71,8 @@ class _CameraPageState extends State<CameraPage> {
               var videoFile = File(mediaCapture.captureRequest.path!);
               var isFilePresent = await videoFile.exists();
               if (!isFilePresent) {
-                await Future.delayed(Duration(seconds: 2)); // Additional wait
+                await Future.delayed(
+                    Duration(milliseconds: 500)); // Additional wait
                 isFilePresent = await videoFile.exists();
                 print("File exists after delay? $isFilePresent");
               }

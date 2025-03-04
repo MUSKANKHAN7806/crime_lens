@@ -3,10 +3,12 @@ import 'dart:io';
 import 'package:crime_lens/models/complain_model.dart';
 import 'package:crime_lens/services/auth_services.dart';
 import 'package:crime_lens/services/database_services.dart';
+import 'package:crime_lens/services/file_upload_service.dart';
 import 'package:crime_lens/widgets/empty_widget.dart';
 import 'package:crime_lens/widgets/form_text_field.dart';
 import 'package:crime_lens/widgets/loading.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class ComplainForm extends StatefulWidget {
   final File? attachment;
@@ -72,6 +74,7 @@ class _FormBodyState extends State<FormBody> {
   final timeController = TextEditingController();
   final typeController = TextEditingController();
   final descriptionController = TextEditingController();
+  DateTime complainDateTime = DateTime.now();
   bool isLoading = false;
 
   @override
@@ -147,26 +150,89 @@ class _FormBodyState extends State<FormBody> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: [
+                          // Icon(Icons.calendar_month),
+                          // const SizedBox(
+                          //   width: 8.0,
+                          // ),
                           Expanded(
                             child: SizedBox(
-                              child: FormTextField(
-                                labelText: 'labelText',
+                              child: TextFormField(
+                                readOnly: true,
+                                decoration: InputDecoration(
+                                  filled: true,
+                                  fillColor: Colors.white,
+                                  border: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(12)),
+                                  label: Text('📅  Date'),
+                                ),
                                 controller: dateController,
+                                textAlign: TextAlign.center,
+                                onTap: () async {
+                                  var newDate = await showDatePicker(
+                                      context: context,
+                                      firstDate: DateTime(
+                                          DateTime.now().year,
+                                          DateTime.now().month,
+                                          DateTime.now().day),
+                                      lastDate:
+                                          DateTime(DateTime.now().year + 1));
+                                  if (newDate != null) {
+                                    dateController.text =
+                                        DateFormat('dd MMM, yyyy')
+                                            .format(newDate);
+                                    complainDateTime = newDate;
+                                  }
+                                },
                               ),
                             ),
                           ),
                           const SizedBox(
                             width: 16,
                           ),
+                          // Icon(
+                          //   Icons.access_time_sharp,
+                          //   size: 30,
+                          // ),
+                          // const SizedBox(
+                          //   width: 8.0,
+                          // ),
                           Expanded(
                             child: SizedBox(
-                              child: FormTextField(
-                                labelText: 'labelText',
+                              child: TextFormField(
+                                decoration: InputDecoration(
+                                  filled: true,
+                                  fillColor: Colors.white,
+                                  border: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(12)),
+                                  label: Text('🕓  Time'),
+                                ),
+                                textAlign: TextAlign.center,
                                 controller: timeController,
+                                readOnly: true,
+                                onTap: () async {
+                                  var newTime = await showTimePicker(
+                                      context: context,
+                                      initialTime: TimeOfDay(
+                                          hour: complainDateTime.hour,
+                                          minute: complainDateTime.minute));
+                                  if (newTime != null) {
+                                    complainDateTime = DateTime(
+                                        complainDateTime.year,
+                                        complainDateTime.month,
+                                        complainDateTime.day,
+                                        newTime.hour,
+                                        newTime.minute);
+                                    timeController.text = DateFormat('h:mm a')
+                                        .format(complainDateTime);
+                                  }
+                                },
                               ),
                             ),
                           )
                         ],
+                      ),
+                      const SizedBox(
+                        height: 12.0,
                       ),
                       FormTextField(
                         labelText: 'Type',
@@ -209,6 +275,17 @@ class _FormBodyState extends State<FormBody> {
                         child: FilledButton(
                             onPressed: () async {
                               if (_formKey.currentState!.validate()) {
+                                setState(() {
+                                  isLoading = true;
+                                });
+
+                                String? attachmentUrl;
+                                if (widget.attachment != null) {
+                                  attachmentUrl = await FileUploadService()
+                                      .uploadFile(
+                                          File(widget.attachment!.path));
+                                }
+
                                 final userDetails = UserDetails(
                                     name: nameController.text,
                                     aadhar: aadharController.text,
@@ -216,22 +293,25 @@ class _FormBodyState extends State<FormBody> {
                                     mobileNumber: mobileNumberController.text,
                                     email: emailController.text);
                                 final incidentDetails = IncidentDetails(
-                                    dateTime: DateTime.now(),
+                                    dateTime: complainDateTime,
                                     location: locationController.text,
                                     type: typeController.text,
                                     description: descriptionController.text);
                                 final complainDetails = ComplainModel(
                                     uid: AuthService.getUid(),
+                                    attachmentUrl: attachmentUrl,
                                     userDetails: userDetails,
                                     incidentDetails: incidentDetails);
-                                setState(() {
-                                  isLoading = true;
-                                });
+
                                 await FirebaseDatabaseServices()
                                     .addNewComplain(complainDetails);
                                 setState(() {
                                   isLoading = false;
                                 });
+                                if (widget.attachment != null) {
+                                  Navigator.of(context).pop();
+                                  Navigator.of(context).pop();
+                                }
                                 Navigator.of(context).pop();
                                 // Fluttertoast.showToast(
                                 //     msg: 'Registered complain successfully');
