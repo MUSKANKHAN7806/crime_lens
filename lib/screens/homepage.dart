@@ -1,10 +1,14 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:crime_lens/models/complain_model.dart';
 import 'package:crime_lens/screens/chatbot_screen.dart';
 import 'package:crime_lens/screens/complain/camera_page.dart';
 import 'package:crime_lens/screens/complain/complain_form.dart';
 import 'package:crime_lens/services/auth_services.dart';
+import 'package:crime_lens/services/database_services.dart';
 import 'package:crime_lens/services/theme.dart';
 import 'package:crime_lens/widgets/complain_cards.dart';
 import 'package:crime_lens/widgets/heat_map.dart';
+import 'package:crime_lens/widgets/loading.dart';
 import 'package:flutter/material.dart';
 
 class HomePage extends StatelessWidget {
@@ -35,16 +39,9 @@ class HomePage extends StatelessWidget {
               style: TextStyle(fontSize: 22.0, fontWeight: FontWeight.w300),
             ),
           ),
-          Container(
-            height: 150,
-            child: ListView(
-              scrollDirection: Axis.horizontal,
-              children: [
-                ComplainCards(),
-                ComplainCards(),
-                ComplainCards(),
-              ],
-            ),
+          SizedBox(
+            height: 120,
+            child: PastComplains(),
           ),
           const SizedBox(
             height: 12.0,
@@ -105,5 +102,42 @@ class HomePage extends StatelessWidget {
         ),
       ),
     );
+  }
+}
+
+class PastComplains extends StatelessWidget {
+  const PastComplains({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return StreamBuilder(
+        stream: FirebaseDatabaseServices().getComplains(),
+        builder: (context,
+            AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return LoadingWidget();
+          }
+          if (snapshot.connectionState == ConnectionState.active) {
+            final data = snapshot.data;
+            if (data != null) {
+              return Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                child: ListView.builder(
+                    scrollDirection: Axis.horizontal,
+                    itemCount: data.size,
+                    itemBuilder: (context, index) {
+                      final docData = data.docs[index].data();
+                      final complainData = ComplainModel.fromJson(docData);
+                      return ComplainCards(
+                        data: complainData,
+                      );
+                    }),
+              );
+            }
+          }
+          return Center(
+            child: Text("Some error occured"),
+          );
+        });
   }
 }

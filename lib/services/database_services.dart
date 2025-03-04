@@ -18,4 +18,18 @@ class FirebaseDatabaseServices {
   Future addNewComplain(ComplainModel complainDetails) async {
     await firestore.collection('complains').add(complainDetails.toJson());
   }
+
+  Stream<QuerySnapshot<Map<String, dynamic>>> getComplains() {
+    List<ComplainModel> complains = [];
+    String currentUserId = AuthService.getUid();
+    final responseList = firestore
+        .collection('complains')
+        .where('uid', isEqualTo: currentUserId)
+        .snapshots();
+    // for (var doc in responseList.) {
+    //   final singleComplain = ComplainModel.fromJson(doc.data());
+    //   complains.add(singleComplain);
+    // }
+    return responseList;
+  }
 }
