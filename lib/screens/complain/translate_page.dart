@@ -1,37 +1,46 @@
+import 'package:crime_lens/screens/complain/complain_form.dart';
+import 'package:crime_lens/services/gemini_service.dart';
 import 'package:crime_lens/services/translation_service.dart';
+import 'package:crime_lens/widgets/loading.dart';
 import 'package:flutter/material.dart';
 
-class TestingTranslation extends StatefulWidget {
+class TextPreprocessingScreen extends StatefulWidget {
   final String inputText;
-  const TestingTranslation({super.key, required this.inputText});
+  const TextPreprocessingScreen({super.key, required this.inputText});
 
   @override
-  State<TestingTranslation> createState() => _TestingTranslationState();
+  State<TextPreprocessingScreen> createState() =>
+      _TextPreprocessingScreenState();
 }
 
-class _TestingTranslationState extends State<TestingTranslation> {
-  late String displayText;
+class _TextPreprocessingScreenState extends State<TextPreprocessingScreen> {
+  bool isLoading = true;
+
   @override
   void initState() {
-    displayText = widget.inputText;
     translate();
     super.initState();
   }
 
   void translate() async {
-    displayText =
+    final translatedData =
         await TranslationService().translateToEnglish(widget.inputText);
+    final incidentJson =
+        await GeminiService().extractDataFromText(translatedData);
+    isLoading = false;
     setState(() {});
+    Navigator.of(context).pushReplacement(MaterialPageRoute(
+        builder: (context) => ComplainForm(
+              incidentDetails: incidentJson,
+            )));
   }
-
-  bool isLoading = false;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(),
       body: Center(
-        child: Text(displayText),
+        child: isLoading ? const LoadingWidget() : null,
       ),
     );
   }

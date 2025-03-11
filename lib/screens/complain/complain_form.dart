@@ -12,7 +12,8 @@ import 'package:intl/intl.dart';
 
 class ComplainForm extends StatefulWidget {
   final File? attachment;
-  const ComplainForm({super.key, this.attachment});
+  final Map<String, dynamic>? incidentDetails;
+  const ComplainForm({super.key, this.attachment, this.incidentDetails});
 
   @override
   State<ComplainForm> createState() => _ComplainFormState();
@@ -25,6 +26,16 @@ class _ComplainFormState extends State<ComplainForm> {
   final peopleInvolvedCOntroller = TextEditingController();
   List<Map<String, dynamic>> witnessDetails = [];
   List<Map<String, dynamic>> suspectDetails = [];
+  IncidentDetails? incidentDetailsFromAudio;
+
+  @override
+  void initState() {
+    if (widget.incidentDetails != null) {
+      incidentDetailsFromAudio =
+          IncidentDetails.fromJson(widget.incidentDetails!);
+    }
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -43,6 +54,7 @@ class _ComplainFormState extends State<ComplainForm> {
                 return FormBody(
                   attachment: widget.attachment,
                   userDetails: data,
+                  incidentDetails: incidentDetailsFromAudio,
                 );
               }
               return FormBody();
@@ -54,8 +66,13 @@ class FormBody extends StatefulWidget {
   final File? attachment;
   final ComplainModel? initialData;
   final UserDetails? userDetails;
+  final IncidentDetails? incidentDetails;
   const FormBody(
-      {super.key, this.initialData, this.userDetails, this.attachment});
+      {super.key,
+      this.initialData,
+      this.userDetails,
+      this.attachment,
+      this.incidentDetails});
 
   @override
   State<FormBody> createState() => _FormBodyState();
@@ -85,6 +102,14 @@ class _FormBodyState extends State<FormBody> {
       addressController.text = widget.userDetails!.address;
       mobileNumberController.text = widget.userDetails!.mobileNumber;
       emailController.text = widget.userDetails!.email;
+    }
+    if (widget.incidentDetails != null) {
+      locationController.text = widget.incidentDetails!.location;
+      dateController.text = DateFormat('dd MMM, yyyy').format(DateTime.now());
+      timeController.text =
+          DateFormat('h:mm a').format(widget.incidentDetails!.dateTime);
+      typeController.text = widget.incidentDetails!.type;
+      descriptionController.text = widget.incidentDetails!.description;
     }
     super.initState();
   }

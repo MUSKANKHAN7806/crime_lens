@@ -6,11 +6,13 @@ import 'package:crime_lens/screens/complain/complain_form.dart';
 import 'package:crime_lens/screens/complain/voice_complain.dart';
 import 'package:crime_lens/services/auth_services.dart';
 import 'package:crime_lens/services/database_services.dart';
+import 'package:crime_lens/services/gemini_service.dart';
 import 'package:crime_lens/services/theme.dart';
 import 'package:crime_lens/widgets/complain_cards.dart';
 import 'package:crime_lens/widgets/heat_map.dart';
 import 'package:crime_lens/widgets/loading.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_gemini/flutter_gemini.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});

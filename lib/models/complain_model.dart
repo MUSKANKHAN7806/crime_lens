@@ -97,10 +97,10 @@ class IncidentDetails {
 
   factory IncidentDetails.fromJson(Map<String, dynamic> json) {
     return IncidentDetails(
-      dateTime: DateTime.parse(json['date_time']),
-      location: json['location'],
-      type: json['type'],
-      description: json['description'],
+      dateTime: DateTime.parse(json['date_time'] ?? DateTime.now().toString()),
+      location: json['location'] ?? '',
+      type: json['type'] ?? '',
+      description: json['description'] ?? '',
     );
   }
 

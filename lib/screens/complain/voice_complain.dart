@@ -108,8 +108,8 @@ class _AudioRecognizeState extends State<AudioRecognize> {
     setState(() {
       recognizing = false;
     });
-    Navigator.of(context).push(MaterialPageRoute(
-        builder: (context) => TestingTranslation(inputText: text)));
+    Navigator.of(context).pushReplacement(MaterialPageRoute(
+        builder: (context) => TextPreprocessingScreen(inputText: text)));
   }
 
   RecognitionConfig _getConfig() => RecognitionConfig(
