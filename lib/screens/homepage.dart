@@ -3,6 +3,7 @@ import 'package:crime_lens/models/complain_model.dart';
 import 'package:crime_lens/screens/chatbot_screen.dart';
 import 'package:crime_lens/screens/complain/camera_page.dart';
 import 'package:crime_lens/screens/complain/complain_form.dart';
+import 'package:crime_lens/screens/complain/voice_complain.dart';
 import 'package:crime_lens/services/auth_services.dart';
 import 'package:crime_lens/services/database_services.dart';
 import 'package:crime_lens/services/theme.dart';
@@ -40,7 +41,7 @@ class HomePage extends StatelessWidget {
             ),
           ),
           SizedBox(
-            height: 120,
+            height: 140,
             child: PastComplains(),
           ),
           const SizedBox(
@@ -67,7 +68,13 @@ class HomePage extends StatelessWidget {
                                   },
                                   icon: Icon(Icons.video_call)),
                               IconButton.filled(
-                                  onPressed: () {},
+                                  onPressed: () {
+                                    Navigator.of(context).pop();
+                                    Navigator.of(context).push(
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                AudioRecognize()));
+                                  },
                                   icon: Icon(Icons.spatial_audio_off_rounded)),
                               IconButton.filled(
                                   onPressed: () {

@@ -1,0 +1,13 @@
+{
+  "type": "service_account",
+  "project_id": "crime-lens-xccs",
+  "private_key_id": "942e08c6cf07df6f3f6b83e6ef66724780bc776f",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvAIBADANBgkqhkiG9w0BAQEFAASCBKYwggSiAgEAAoIBAQCuP94lkzbLzbLE\n15K4KRBDiSoCDHqutiE5QxsmseKwjpqhmJzJLoDVA4tazWo6/8CnlfK462+cccnz\nIg3Scg+Z7ERoi1cRua4vq9YaFQLk1npha98PALNaeFmN9K3iBDJPN7S04cNazF1/\nwT33EJMVs2zxC8BL/37QGtN2u47K9qGH08Ouo4KO+ZChgPf6ZLT16mgWQvG/0Rvf\nC+jFxEcWdRZDsiSDx4RfgC8fxslM6VPuSItcBrA01rX2HmK5k9hS9B207GCxD/7J\nHXUVeTglbXkAPhBEJp37qW7VTmQNCrjlvzNZrEq/r3WCdj1ghqKTVe85cWkFphLc\n+Yl2dzK/AgMBAAECggEAKRqIyR1Scj36GyPtCMMrAntjLOuLrxXofWz+hSC2JEbn\nZBIvfeeZ3WXCJC/LjNJSvFWLVaK4B9Pxuwg/8XIViw4oTu77oYNG+xjSXwGw1pFf\negarrgrQxBkaqvlaYTPzOCugVYDiB9OohJ/tgY/n2lkibDQE7wh8fhOt6VayBt9F\nlWFGgjKgaiZb4ADaDrpfG3M3CNO3IvcjC0pLwreB6RfUTRRrhd5wiHWy2ScUbsi1\nsL6uXQEwDDYeNZbvVeOMvZaMwL+I8WGCzlSMepMR01QYPU+XgvWKAcwxEgEk+j+d\n0e7D16EnmKRhvwdZdhgWAPd0wWEDoOdEdcW0QtRJPQKBgQDsEMzSbGqywL9FgRh4\n0AEuWp+cfLTZ5X972smSv/gs8a+LM556a3nit2k1o7FDwkAI8tH1ikgBgx0JI7gQ\nVDL1lKQGoKMg/2x0rPX1fQ1SFTR0P/eHng7OwkOO6qMYDE4VfFn9DOgc7wJERPgp\nAgxtXEb+Yxu5vmh9CXqTmj4xBQKBgQC89r5qAp+RuEYRGLIvX3AfOJFno2l7H5cu\nwoVeHJhaFgnAzK9HmEh9zIQ+snl/YkEG7qPdeAAXVbGWTlHOVnXZB28w+0KWuSQY\nZBUapbOJSoE9wiQoz3lepdm1uFdwvd5TyPdtUflsBh0zs2TRgM3hgaac5oAgVKWp\n0AyCcu/v8wKBgCToA32qYYwMwlqVckQBEQ40MNwASy39yU6NyBHfXWd5aZ5ztYUi\nJG4jiplOPDqBtg0wGU8wDU3fN7zkDrTO1SC72mEG4DoadNRQ7isxH9IDaq36CjLz\nrRD6IiHH4TOzSMnnJRKA4BEV9N7DgaC3p0W5tYez6vPBJwjVYIqPBMYZAoGAUEkx\n7A7DR4GY24i3pGMTW2CIfxUyKuroLCjfy3Ww0Y3NhQoyauPr4O81PQJNlu7jHBPm\nsaFbwI5bTrZmEZowpg5/krsetrVg/bAAO3stxeZO9TN4c5J7SdiDoK77D97MCKM5\nZUxQAjKy05Wj/1OPpgGVDdLtm077uCO6PO6ivTsCgYAmrMBOCDSY/V7Q7YSdg+iS\nF6V/oavuPAK2sOvhq+omm3sbzNrhETA3PFOH+tX/HQ3iLA9zb6w6OtW95pHZP3NM\nSbF0qUZaclp6DJPRgYqw8mS5DoK7EFlliUOuvDKRvsesqEL+G4MA3CD7cDAtmdqn\nv5xpA9swBNq+LFzjoaQJFQ==\n-----END PRIVATE KEY-----\n",
+  "client_email": "crime-lens-297@crime-lens-xccs.iam.gserviceaccount.com",
+  "client_id": "118015499207819432610",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/crime-lens-297%40crime-lens-xccs.iam.gserviceaccount.com",
+  "universe_domain": "googleapis.com"
+}
