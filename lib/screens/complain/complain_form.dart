@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:crime_lens/models/complain_model.dart';
+import 'package:crime_lens/screens/criminal_details_page.dart';
 import 'package:crime_lens/services/auth_services.dart';
 import 'package:crime_lens/services/database_services.dart';
 import 'package:crime_lens/services/file_upload_service.dart';
@@ -8,6 +9,7 @@ import 'package:crime_lens/widgets/empty_widget.dart';
 import 'package:crime_lens/widgets/form_text_field.dart';
 import 'package:crime_lens/widgets/loading.dart';
 import 'package:flutter/material.dart';
+import 'package:google_speech/generated/google/protobuf/empty.pb.dart';
 import 'package:intl/intl.dart';
 
 class ComplainForm extends StatefulWidget {
@@ -290,6 +292,33 @@ class _FormBodyState extends State<FormBody> {
                                   Text(
                                       (widget.attachment!.path).split('/').last)
                                 ],
+                              ),
+                            )
+                          : const EmptyWidget(),
+                      widget.attachment != null
+                          ? Padding(
+                              padding:
+                                  const EdgeInsets.only(top: 12.0, bottom: 8.0),
+                              child: const Text(
+                                'Suspects',
+                                style: titleTextStyle,
+                              ),
+                            )
+                          : const EmptyWidget(),
+                      widget.attachment != null
+                          ? Card(
+                              child: ListTile(
+                                title: Text('Muskan Gupta'),
+                                subtitle: Text('Age: 22'),
+                                trailing: TextButton(
+                                    onPressed: () {
+                                      Navigator.of(context).push(
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  CriminalDetailsPage(
+                                                      uid: 'uid')));
+                                    },
+                                    child: Text('View details')),
                               ),
                             )
                           : const EmptyWidget(),
