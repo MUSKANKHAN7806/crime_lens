@@ -4,6 +4,7 @@ import 'package:crime_lens/screens/chatbot_screen.dart';
 import 'package:crime_lens/screens/complain/camera_page.dart';
 import 'package:crime_lens/screens/complain/complain_form.dart';
 import 'package:crime_lens/screens/complain/voice_complain.dart';
+import 'package:crime_lens/screens/nav_bar.dart';
 import 'package:crime_lens/services/auth_services.dart';
 import 'package:crime_lens/services/database_services.dart';
 import 'package:crime_lens/services/gemini_service.dart';
@@ -13,6 +14,7 @@ import 'package:crime_lens/widgets/heat_map.dart';
 import 'package:crime_lens/widgets/loading.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gemini/flutter_gemini.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -21,15 +23,29 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
     return Scaffold(
+      drawer: HomeNavigationDrawer(),
       appBar: AppBar(
-        title: Text('CrimeLens'),
-        actions: [
-          ElevatedButton(
-              onPressed: () async {
-                await AuthService().signOut();
-              },
-              child: Text('Logout'))
-        ],
+        iconTheme: IconThemeData(color: Colors.red),
+        title: RichText(
+            text: TextSpan(children: [
+          TextSpan(
+              text: 'Crime',
+              style: GoogleFonts.quicksand(
+                  color: Colors.white,
+                  fontSize: 24,
+                  fontWeight: FontWeight.bold)),
+          TextSpan(
+              text: 'Lens',
+              style: GoogleFonts.quicksand(
+                  color: Colors.red, fontSize: 24, fontWeight: FontWeight.bold))
+        ])),
+        // actions: [
+        //   ElevatedButton(
+        //       onPressed: () async {
+        //         await AuthService().signOut();
+        //       },
+        //       child: Text('Logout'))
+        // ],
       ),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -39,11 +55,12 @@ class HomePage extends StatelessWidget {
             padding: const EdgeInsets.all(8.0),
             child: Text(
               'Past Complains',
-              style: TextStyle(fontSize: 22.0, fontWeight: FontWeight.w300),
+              style: GoogleFonts.oswald(
+                  fontSize: 26.0, fontWeight: FontWeight.w500),
             ),
           ),
           SizedBox(
-            height: 140,
+            height: 160,
             child: PastComplains(),
           ),
           const SizedBox(
@@ -96,8 +113,8 @@ class HomePage extends StatelessWidget {
       ),
       floatingActionButton: FloatingActionButton(
         shape: const CircleBorder(
-            side: BorderSide(color: kMeeshoMustard, width: 1.6)),
-        backgroundColor: kMeeshoPurple,
+            side: BorderSide(color: Colors.white, width: 1.6)),
+        backgroundColor: Colors.green,
         heroTag: 'chatBotFab',
         onPressed: () {
           Navigator.of(context).push(MaterialPageRoute(

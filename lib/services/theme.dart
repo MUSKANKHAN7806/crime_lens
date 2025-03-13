@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 const Color kWhiteColor = Colors.white;
 const Color kTranslucentBlack = Colors.black87;
@@ -27,10 +28,13 @@ class AppTheme {
   ThemeData lightTheme() {
     return ThemeData(
         cardTheme: CardTheme(color: Colors.white),
-        appBarTheme: AppBarTheme(color: Colors.white),
+        appBarTheme: AppBarTheme(
+            color: Colors.green,
+            iconTheme: IconThemeData(color: Colors.white),
+            titleTextStyle:
+                GoogleFonts.quicksand(color: Colors.white, fontSize: 20)),
         scaffoldBackgroundColor: kCatsKillWhiteColor,
-        colorScheme:
-            ColorScheme.fromSeed(seedColor: Colors.deepPurple.shade700),
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.green),
         useMaterial3: true);
   }
 }

@@ -108,6 +108,7 @@ class _AudioRecognizeState extends State<AudioRecognize> {
     setState(() {
       recognizing = false;
     });
+    Future.delayed(Duration(milliseconds: 200));
     Navigator.of(context).pushReplacement(MaterialPageRoute(
         builder: (context) => TextPreprocessingScreen(inputText: text)));
   }
@@ -160,13 +161,14 @@ class _RecognizeContent extends StatelessWidget {
         children: <Widget>[
           const Text(
             'The text recognized by the Google Speech Api:',
+            style: TextStyle(color: Colors.green),
           ),
           const SizedBox(
             height: 16.0,
           ),
           Text(
             text ?? '---',
-            style: Theme.of(context).textTheme.bodyMedium,
+            style: TextStyle(color: Colors.black, fontSize: 16),
           ),
         ],
       ),

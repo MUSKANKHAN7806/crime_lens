@@ -37,7 +37,7 @@ class _HeatmapWidgetState extends State<HeatmapWidget> {
   }
 
   _loadData() async {
-    var str = await rootBundle.loadString('assets/crime_data_up_large.json');
+    var str = await rootBundle.loadString('assets/lucknow_heatmap.json');
     List<dynamic> result = jsonDecode(str);
 
     setState(() {
@@ -59,7 +59,6 @@ class _HeatmapWidgetState extends State<HeatmapWidget> {
 
   @override
   Widget build(BuildContext context) {
-
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       _rebuildStream.add(null);
     });
@@ -67,8 +66,8 @@ class _HeatmapWidgetState extends State<HeatmapWidget> {
     final map = FlutterMap(
       options: MapOptions(
         backgroundColor: Colors.transparent,
-        initialCenter: LatLng(26.8500, 80.9200),
-        initialZoom: 8.0,
+        initialCenter: LatLng(26.8382, 80.9346),
+        initialZoom: 12.0,
       ),
       children: [
         TileLayer(
@@ -77,13 +76,13 @@ class _HeatmapWidgetState extends State<HeatmapWidget> {
           HeatMapLayer(
             heatMapDataSource: InMemoryHeatMapDataSource(data: data),
             heatMapOptions: HeatMapOptions(
-                radius: 150,
-                gradient: gradients[index], minOpacity: 0.1),
+                radius: 150, gradient: gradients[index], minOpacity: 0.1),
             reset: _rebuildStream.stream,
           )
       ],
     );
-    
-    return SizedBox(height: MediaQuery.of(context).size.height*0.5, child: map);
+
+    return SizedBox(
+        height: MediaQuery.of(context).size.height * 0.5, child: map);
   }
 }

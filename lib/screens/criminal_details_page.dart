@@ -1,5 +1,10 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:crime_lens/models/complain_model.dart';
+import 'package:crime_lens/services/database_services.dart';
 import 'package:crime_lens/widgets/key_value_text.dart';
+import 'package:crime_lens/widgets/loading.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class CriminalDetailsPage extends StatelessWidget {
   final String uid;
@@ -8,38 +13,81 @@ class CriminalDetailsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
-      body: SizedBox(
-        width: double.infinity,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            const SizedBox(
-              height: 30.0,
-            ),
-            CircleAvatar(
-              radius: 50,
-            ),
-            const SizedBox(
-              height: 30,
-            ),
-            KeyValueText(keyText: 'Name: ', valueText: 'Muskan Gupta'),
-            const SizedBox(
-              height: 12.0,
-            ),
-            KeyValueText(keyText: 'Age: ', valueText: '26'),
-            const SizedBox(
-              height: 12.0,
-            ),
-            KeyValueText(keyText: 'Reason: ', valueText: 'Theft'),
-            const SizedBox(
-              height: 12.0,
-            ),
-            // KeyValueText(keyText: 'Name: ', valueText: 'Muskan Gupta'),
-            // const SizedBox(height: 12.0,),
-          ],
-        ),
+      appBar: AppBar(
+        title: Text('Criminal Details'),
       ),
+      body: StreamBuilder(
+          stream: FirebaseFirestore.instance
+              .collection('criminal')
+              .doc(uid)
+              .snapshots(),
+          builder: (context,
+              AsyncSnapshot<DocumentSnapshot<Map<String, dynamic>>> snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting)
+              return LoadingWidget();
+            if (snapshot.connectionState == ConnectionState.active) {
+              final data = snapshot.data;
+              print(data!.get('name'));
+              return SizedBox(
+                width: double.infinity,
+                child: Padding(
+                  padding: const EdgeInsets.only(left: 30),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const SizedBox(
+                        height: 30.0,
+                      ),
+                      Center(
+                        child: CircleAvatar(
+                          radius: 100,
+                          backgroundImage: NetworkImage(data.get('image')),
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 30,
+                      ),
+                      KeyValueText(
+                          keyText: 'Name: ', valueText: data.get('name')),
+                      const SizedBox(
+                        height: 12.0,
+                      ),
+                      KeyValueText(
+                          keyText: 'Gender: ', valueText: data.get('gender')),
+                      const SizedBox(
+                        height: 12.0,
+                      ),
+                      KeyValueText(
+                          keyText: 'Crime: ', valueText: data.get('crime')),
+                      const SizedBox(
+                        height: 12.0,
+                      ),
+                      KeyValueText(
+                          keyText: 'Status: ', valueText: data.get('status')),
+                      const SizedBox(
+                        height: 12.0,
+                      ),
+                      KeyValueText(
+                          keyText: 'Date of Birth: ',
+                          valueText: DateFormat('dd MMM, yyyy')
+                              .format(data.get('dob').toDate())),
+                      const SizedBox(
+                        height: 12.0,
+                      ),
+                      KeyValueText(
+                          keyText: 'Address: ', valueText: data.get('address')),
+                      const SizedBox(
+                        height: 12.0,
+                      ),
+                    ],
+                  ),
+                ),
+              );
+            }
+            return Center(
+              child: Text('Error'),
+            );
+          }),
     );
   }
 }

@@ -9,6 +9,7 @@ import 'package:crime_lens/widgets/empty_widget.dart';
 import 'package:crime_lens/widgets/form_text_field.dart';
 import 'package:crime_lens/widgets/loading.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:google_speech/generated/google/protobuf/empty.pb.dart';
 import 'package:intl/intl.dart';
 
@@ -119,8 +120,8 @@ class _FormBodyState extends State<FormBody> {
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
-    const titleTextStyle =
-        TextStyle(fontSize: 20.0, fontWeight: FontWeight.w600);
+    final titleTextStyle =
+        GoogleFonts.oswald(fontSize: 20.0, color: Colors.green);
 
     return isLoading
         ? const LoadingWidget()
@@ -132,7 +133,7 @@ class _FormBodyState extends State<FormBody> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const Text(
+                      Text(
                         'Your Details',
                         style: titleTextStyle,
                       ),
@@ -162,7 +163,7 @@ class _FormBodyState extends State<FormBody> {
                       const SizedBox(
                         height: 10.0,
                       ),
-                      const Text(
+                      Text(
                         'Incident Details',
                         style: titleTextStyle,
                       ),
@@ -198,7 +199,7 @@ class _FormBodyState extends State<FormBody> {
                                   var newDate = await showDatePicker(
                                       context: context,
                                       firstDate: DateTime(
-                                          DateTime.now().year,
+                                          DateTime.now().year - 1,
                                           DateTime.now().month,
                                           DateTime.now().day),
                                       lastDate:
@@ -274,7 +275,7 @@ class _FormBodyState extends State<FormBody> {
                         height: 12.0,
                       ),
                       widget.attachment != null
-                          ? const Text(
+                          ? Text(
                               'Attachments',
                               style: titleTextStyle,
                             )
@@ -299,28 +300,37 @@ class _FormBodyState extends State<FormBody> {
                           ? Padding(
                               padding:
                                   const EdgeInsets.only(top: 12.0, bottom: 8.0),
-                              child: const Text(
+                              child: Text(
                                 'Suspects',
                                 style: titleTextStyle,
                               ),
                             )
                           : const EmptyWidget(),
                       widget.attachment != null
-                          ? Card(
-                              child: ListTile(
-                                title: Text('Muskan Gupta'),
-                                subtitle: Text('Age: 22'),
-                                trailing: TextButton(
-                                    onPressed: () {
-                                      Navigator.of(context).push(
-                                          MaterialPageRoute(
-                                              builder: (context) =>
-                                                  CriminalDetailsPage(
-                                                      uid: 'uid')));
-                                    },
-                                    child: Text('View details')),
-                              ),
-                            )
+                          ? FutureBuilder(
+                              future: Future.delayed(Duration(seconds: 2)),
+                              builder: (context, snapshot) {
+                                if (snapshot.connectionState ==
+                                    ConnectionState.waiting)
+                                  return LoadingWidget();
+
+                                return Card(
+                                  child: ListTile(
+                                    title: Text('Muskan Khan'),
+                                    subtitle: Text('Age: 22'),
+                                    trailing: TextButton(
+                                        onPressed: () {
+                                          Navigator.of(context).push(
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      CriminalDetailsPage(
+                                                          uid:
+                                                              'Vp9Lo5Ohub0PJOxEWPp2')));
+                                        },
+                                        child: Text('View details')),
+                                  ),
+                                );
+                              })
                           : const EmptyWidget(),
                       const SizedBox(
                         height: 12.0,
@@ -334,10 +344,21 @@ class _FormBodyState extends State<FormBody> {
                                 });
 
                                 String? attachmentUrl;
+                                SuspectDetails? suspectDetails;
                                 if (widget.attachment != null) {
                                   attachmentUrl = await FileUploadService()
                                       .uploadFile(
                                           File(widget.attachment!.path));
+                                  suspectDetails = SuspectDetails(
+                                      name: 'Muskan Khan',
+                                      gender: 'Female',
+                                      dob: DateTime(2002, 4, 27),
+                                      address:
+                                          'Jagdamba Tower, Fastline chowk, Lucknow',
+                                      crime: 'Stealing from bank',
+                                      image:
+                                          'https://firebasestorage.googleapis.com/v0/b/eduopt-7cbef.appspot.com/o/Teacher%2Fmuskan_resume_photo_square.jpg?alt=media&token=59113dae-51cc-41de-a074-dcbb96e834b2',
+                                      status: 'Released');
                                 }
 
                                 final userDetails = UserDetails(
@@ -355,7 +376,8 @@ class _FormBodyState extends State<FormBody> {
                                     uid: AuthService.getUid(),
                                     attachmentUrl: attachmentUrl,
                                     userDetails: userDetails,
-                                    incidentDetails: incidentDetails);
+                                    incidentDetails: incidentDetails,
+                                    suspectDetails: suspectDetails);
 
                                 await FirebaseDatabaseServices()
                                     .addNewComplain(complainDetails);

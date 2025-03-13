@@ -2,13 +2,15 @@ import 'dart:io';
 
 import 'package:chewie/chewie.dart';
 import 'package:crime_lens/screens/complain/complain_form.dart';
+import 'package:crime_lens/widgets/empty_widget.dart';
 import 'package:crime_lens/widgets/loading.dart';
 import 'package:flutter/material.dart';
 import 'package:video_player/video_player.dart';
 
 class PhotoPreviewPage extends StatelessWidget {
   final String imagePath;
-  const PhotoPreviewPage({super.key, required this.imagePath});
+  final String? imageUrl;
+  const PhotoPreviewPage({super.key, required this.imagePath, this.imageUrl});
 
   @override
   Widget build(BuildContext context) {
@@ -21,35 +23,40 @@ class PhotoPreviewPage extends StatelessWidget {
           Expanded(
               child: Container(
             decoration: BoxDecoration(
-                image: DecorationImage(image: FileImage(File(imagePath)))),
+                image: DecorationImage(
+                    image: imageUrl == null
+                        ? FileImage(File(imagePath))
+                        : NetworkImage(imageUrl!))),
           )),
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: 12.0),
-            child: SizedBox(
-              child: Row(
-                children: [
-                  Expanded(
-                      child: OutlinedButton(
-                          onPressed: () {
-                            Navigator.of(context).pop();
-                          },
-                          child: Text('Retake'))),
-                  const SizedBox(
-                    width: 12.0,
+          imageUrl == null
+              ? Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 12.0),
+                  child: SizedBox(
+                    child: Row(
+                      children: [
+                        Expanded(
+                            child: OutlinedButton(
+                                onPressed: () {
+                                  Navigator.of(context).pop();
+                                },
+                                child: Text('Retake'))),
+                        const SizedBox(
+                          width: 12.0,
+                        ),
+                        Expanded(
+                            child: FilledButton(
+                                onPressed: () {
+                                  Navigator.of(context).push(MaterialPageRoute(
+                                      builder: (context) => ComplainForm(
+                                            attachment: File(imagePath),
+                                          )));
+                                },
+                                child: Text('Proceed'))),
+                      ],
+                    ),
                   ),
-                  Expanded(
-                      child: FilledButton(
-                          onPressed: () {
-                            Navigator.of(context).push(MaterialPageRoute(
-                                builder: (context) => ComplainForm(
-                                      attachment: File(imagePath),
-                                    )));
-                          },
-                          child: Text('Proceed'))),
-                ],
-              ),
-            ),
-          ),
+                )
+              : const EmptyWidget(),
           const SizedBox(
             height: 10.0,
           )
@@ -60,8 +67,9 @@ class PhotoPreviewPage extends StatelessWidget {
 }
 
 class VideoPreviewPage extends StatefulWidget {
+  final String? videoUrl;
   final String videoPath;
-  const VideoPreviewPage({super.key, required this.videoPath});
+  const VideoPreviewPage({super.key, required this.videoPath, this.videoUrl});
 
   @override
   State<VideoPreviewPage> createState() => _VideoPreviewPageState();
@@ -74,7 +82,13 @@ class _VideoPreviewPageState extends State<VideoPreviewPage> {
   late Chewie playerWidget;
 
   void intializeController() async {
-    videoPlayerController = VideoPlayerController.file(File(widget.videoPath));
+    if (widget.videoUrl != null) {
+      videoPlayerController =
+          VideoPlayerController.networkUrl(Uri.parse(widget.videoUrl!));
+    } else {
+      videoPlayerController =
+          VideoPlayerController.file(File(widget.videoPath));
+    }
     await videoPlayerController.initialize();
 
     chewieController = ChewieController(
@@ -117,33 +131,35 @@ class _VideoPreviewPageState extends State<VideoPreviewPage> {
                 ? Chewie(controller: chewieController!)
                 : const LoadingWidget(),
           )),
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: 12.0),
-            child: SizedBox(
-              child: Row(
-                children: [
-                  Expanded(
-                      child: OutlinedButton(
-                          onPressed: () {
-                            Navigator.of(context).pop();
-                          },
-                          child: Text('Retake'))),
-                  const SizedBox(
-                    width: 12.0,
+          widget.videoUrl == null
+              ? Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 12.0),
+                  child: SizedBox(
+                    child: Row(
+                      children: [
+                        Expanded(
+                            child: OutlinedButton(
+                                onPressed: () {
+                                  Navigator.of(context).pop();
+                                },
+                                child: Text('Retake'))),
+                        const SizedBox(
+                          width: 12.0,
+                        ),
+                        Expanded(
+                            child: FilledButton(
+                                onPressed: () {
+                                  Navigator.of(context).push(MaterialPageRoute(
+                                      builder: (context) => ComplainForm(
+                                            attachment: File(widget.videoPath),
+                                          )));
+                                },
+                                child: Text('Proceed'))),
+                      ],
+                    ),
                   ),
-                  Expanded(
-                      child: FilledButton(
-                          onPressed: () {
-                            Navigator.of(context).push(MaterialPageRoute(
-                                builder: (context) => ComplainForm(
-                                      attachment: File(widget.videoPath),
-                                    )));
-                          },
-                          child: Text('Proceed'))),
-                ],
-              ),
-            ),
-          ),
+                )
+              : const EmptyWidget(),
           const SizedBox(
             height: 10.0,
           )

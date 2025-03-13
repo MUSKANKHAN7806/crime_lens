@@ -10,8 +10,12 @@ class KeyValueText extends StatelessWidget {
   Widget build(BuildContext context) {
     return RichText(
         text: TextSpan(children: [
-      TextSpan(text: keyText, style: TextStyle(fontWeight: FontWeight.w600)),
-      TextSpan(text: valueText)
+      TextSpan(
+          text: keyText,
+          style: TextStyle(
+              fontWeight: FontWeight.w600, color: Colors.black, fontSize: 18)),
+      TextSpan(
+          text: valueText, style: TextStyle(color: Colors.black, fontSize: 18))
     ]));
   }
 }

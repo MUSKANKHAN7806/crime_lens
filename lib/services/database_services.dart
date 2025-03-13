@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:crime_lens/models/complain_model.dart';
+import 'package:crime_lens/screens/criminal_details_page.dart';
 import 'package:crime_lens/services/auth_services.dart';
 
 class FirebaseDatabaseServices {
@@ -31,5 +32,13 @@ class FirebaseDatabaseServices {
     //   complains.add(singleComplain);
     // }
     return responseList;
+  }
+
+  Future<SuspectDetails> getCriminalData(String criminalUid) async {
+    final response =
+        await firestore.collection('criminal').doc(criminalUid).get();
+    final responseData = response.data();
+    final details = SuspectDetails.fromJson(responseData!);
+    return details;
   }
 }

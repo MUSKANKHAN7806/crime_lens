@@ -3,6 +3,7 @@ class ComplainModel {
   final UserDetails userDetails;
   final IncidentDetails incidentDetails;
   final String? attachmentUrl;
+  final SuspectDetails? suspectDetails;
   // final List<SuspectDetails>? suspectDetails;
   // final List<VehicleDetails>? vehicleDetails;
   // final List<WitnessDetails>? witnessDetails;
@@ -11,7 +12,8 @@ class ComplainModel {
       {required this.uid,
       required this.userDetails,
       required this.incidentDetails,
-      this.attachmentUrl
+      this.attachmentUrl,
+      this.suspectDetails
       // required this.suspectDetails,
       // required this.vehicleDetails,
       // required this.witnessDetails
@@ -22,7 +24,10 @@ class ComplainModel {
         uid: json['uid'],
         userDetails: UserDetails.fromJson(json['user_details']),
         incidentDetails: IncidentDetails.fromJson(json['incident_details']),
-        attachmentUrl: json['attachment_url']
+        attachmentUrl: json['attachment_url'],
+        suspectDetails: json['suspect_details'] != null
+            ? SuspectDetails.fromJson(json['suspect_details'])
+            : null
         // suspectDetails: (json['suspect_details'] as List?)
         //     ?.map((e) => SuspectDetails.fromJson(e))
         //     .toList(),
@@ -40,7 +45,8 @@ class ComplainModel {
       'uid': uid,
       'user_details': userDetails.toJson(),
       'incident_details': incidentDetails.toJson(),
-      'attachment_url': attachmentUrl
+      'attachment_url': attachmentUrl,
+      'suspect_details': suspectDetails?.toJson()
       // 'suspect_details': suspectDetails?.map((e) => e.toJson()).toList(),
       // 'vehicle_details': vehicleDetails?.map((e) => e.toJson()).toList(),
       // 'witness_details': witnessDetails?.map((e) => e.toJson()).toList(),
@@ -116,81 +122,98 @@ class IncidentDetails {
 
 class SuspectDetails {
   final String name;
-  final String? physicalDescription;
-  final String otherFeatures;
+  final String gender;
+  final DateTime dob;
+  final String address;
+  final String crime;
+  final String image;
+  final String status;
+
   SuspectDetails(
       {required this.name,
-      required this.otherFeatures,
-      this.physicalDescription});
+      required this.gender,
+      required this.dob,
+      required this.address,
+      required this.crime,
+      required this.image,
+      required this.status});
 
   factory SuspectDetails.fromJson(Map<String, dynamic> json) {
-    return SuspectDetails(
-      name: json['name'],
-      otherFeatures: json['other_features'],
-      physicalDescription: json['physical_description'],
-    );
+    final details = SuspectDetails(
+        name: json['name'],
+        gender: json['gender'],
+        dob: json['dob'].toDate(),
+        address: json['address'],
+        crime: json['crime'],
+        image: json['image'],
+        status: json['status']);
+    return details;
   }
 
   Map<String, dynamic> toJson() {
     return {
       'name': name,
-      'physical_description': physicalDescription,
-      'other_features': otherFeatures,
+      'gender': gender,
+      'dob': dob,
+      'address': address,
+      'crime': crime,
+      'image': image,
+      'status': status,
     };
   }
 }
 
-class VehicleDetails {
-  final String? color;
-  final String? name;
-  final String? number;
-  final String? description;
+// class VehicleDetails {
+//   final String? color;
+//   final String? name;
+//   final String? number;
+//   final String? description;
 
-  VehicleDetails({this.color, this.name, this.number, this.description});
+//   VehicleDetails({this.color, this.name, this.number, this.description});
 
-  factory VehicleDetails.fromJson(Map<String, dynamic> json) {
-    return VehicleDetails(
-      color: json['color'],
-      name: json['name'],
-      number: json['number'],
-      description: json['description'],
-    );
-  }
+//   factory VehicleDetails.fromJson(Map<String, dynamic> json) {
+//     return VehicleDetails(
+//       color: json['color'],
+//       name: json['name'],
+//       number: json['number'],
+//       description: json['description'],
+//     );
+//   }
 
-  Map<String, dynamic> toJson() {
-    return {
-      'color': color,
-      'name': name,
-      'number': number,
-      'description': description,
-    };
-  }
-}
+//   Map<String, dynamic> toJson() {
+//     return {
+//       'color': color,
+//       'name': name,
+//       'number': number,
+//       'description': description,
+//     };
+//   }
+// }
 
-class WitnessDetails {
-  final String? name;
-  final String? relation;
-  final String? contactNumber;
-  final String? otherInfo;
+// class WitnessDetails {
+//   final String? name;
+//   final String? relation;
+//   final String? contactNumber;
+//   final String? otherInfo;
 
-  WitnessDetails(
-      {this.name, this.relation, this.contactNumber, this.otherInfo});
+//   WitnessDetails(
+//       {this.name, this.relation, this.contactNumber, this.otherInfo});
 
-  factory WitnessDetails.fromJson(Map<String, dynamic> json) {
-    return WitnessDetails(
-      name: json['name'],
-      relation: json['relation'],
-      contactNumber: json['contact_number'],
-      otherInfo: json['other_info'],
-    );
-  }
+//   factory WitnessDetails.fromJson(Map<String, dynamic> json) {
+//     return WitnessDetails(
+//       name: json['name'],
+//       relation: json['relation'],
+//       contactNumber: json['contact_number'],
+//       otherInfo: json['other_info'],
+//     );
+//   }
 
-  Map<String, dynamic> toJson() {
-    return {
-      'name': name,
-      'relation': relation,
-      'contact_number': contactNumber,
-      'other_info': otherInfo,
-    };
-  }
-}
+//   Map<String, dynamic> toJson() {
+//     return {
+//       'name': name,
+//       'relation': relation,
+//       'contact_number': contactNumber,
+//       'other_info': otherInfo,
+//     };
+//   }
+// }

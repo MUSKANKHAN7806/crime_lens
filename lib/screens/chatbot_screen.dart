@@ -84,7 +84,7 @@ class _ChatBotChatScreenState extends State<ChatBotChatScreen> {
                       SizedBox(
                         height: 50,
                         child: FloatingActionButton(
-                          backgroundColor: Colors.purple,
+                          backgroundColor: Colors.green,
                           onPressed: () async {
                             if (_controller.text.isNotEmpty) {
                               FocusScope.of(context).unfocus();
@@ -189,8 +189,8 @@ class MessageArea extends StatelessWidget {
                                   topRight: Radius.circular(15),
                                   bottomRight: Radius.circular(15)),
                           color: isMe
-                              ? Colors.purple
-                              : Colors.purple.shade100.withOpacity(0.5),
+                              ? Colors.green
+                              : Colors.green.shade100.withOpacity(0.5),
                         ),
                         child: ChatBubbleContent(
                             isMe: isMe,
